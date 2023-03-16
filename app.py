@@ -52,5 +52,20 @@ def add_contact():
     db.session.commit()
     return "Contact Added Successfully"
 
+
+@app.route('/delete_contact', methods=["DELETE"])
+def delete_contact():
+    id = request.args.get('id')
+
+    if id is None:
+        return "Contact Id is required", 400
+
+    contact = Contact.query.filter_by(id=id).first()
+    if contact is None:
+        return "No Contact Found", 404
+    db.session.delete(contact)
+    db.session.commit()
+    return "Contact Deleted Successfully"
+
 if __name__ == '__main__':
     app.run(debug=True)
