@@ -1,13 +1,15 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask,  request
 from os import environ
+from .models import Contact, db
+
 
 app = Flask(__name__)
 
 DATABASE_URI = environ.get("DATABASE_URI")
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
 
-db = SQLAlchemy()
+# db = SQLAlchemy()
 
 db.init_app(app)
 
@@ -15,14 +17,7 @@ db.init_app(app)
 def create_table():
     db.create_all()
 
-class Contact(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(20))
-    middle_name = db.Column(db.String(20))
-    last_name = db.Column(db.String(20))
-    phone_no = db.Column(db.String(13))
-    phone_ext = db.Column(db.String(3))
-    
+
 @app.route("/" )
 def home():
     return "<p>Server is running</p>"
