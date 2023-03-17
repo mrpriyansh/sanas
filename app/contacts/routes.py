@@ -1,29 +1,10 @@
-from flask_sqlalchemy import SQLAlchemy
-from flask import Flask,  request
-from os import environ
-from .models import Contact, db
-from .config import Config
 
+from flask import request 
+from ..models import db, Contact
 
-app = Flask(__name__)
+from app.contacts import bp
 
-app.config['SQLALCHEMY_DATABASE_URI'] = Config.DATABASE_URI
-
-
-db.init_app(app)
-
-@app.before_first_request
-def create_table():
-    db.create_all()
-
-
-@app.route("/" )
-def home():
-    return "<p>Server is running</p>"
-
-
-
-@app.route('/add_contact', methods=["POST"])
+@bp.route('/add_contact', methods=["POST"])
 def add_contact():
 	try:
 		request_data = request.get_json()
@@ -52,7 +33,7 @@ def add_contact():
     
 
 
-@app.route('/delete_contact', methods=["DELETE"])
+@bp.route('/delete_contact', methods=["DELETE"])
 def delete_contact():
 	try:
 		id = request.args.get('id')
@@ -68,6 +49,3 @@ def delete_contact():
 		return "Contact Deleted Successfully"
 	except:
 		return "Server Error", 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
