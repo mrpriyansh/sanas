@@ -2,14 +2,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask,  request
 from os import environ
 from .models import Contact, db
+from .config import Config
 
 
 app = Flask(__name__)
 
-DATABASE_URI = environ.get("DATABASE_URI")
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
+app.config['SQLALCHEMY_DATABASE_URI'] = Config.DATABASE_URI
 
-# db = SQLAlchemy()
 
 db.init_app(app)
 
